@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <sk.zdila.chromalux.ColorPicker
+        android:id="@+id/colorPicker"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.8" />
+
+    <sk.zdila.chromalux.BrightnessPicker
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/brightnessPicker"
+        android:layout_below="@+id/colorPicker"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"/>
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frequencySeekBar"
+        android:layout_below="@+id/brightnessPicker"
+        android:layout_alignRight="@+id/brightnessPicker"
+        android:layout_alignEnd="@+id/brightnessPicker"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:max="1000000"/>
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/amplitudeSeekBar"
+        android:layout_below="@+id/frequencySeekBar"
+        android:layout_alignRight="@+id/frequencySeekBar"
+        android:layout_alignEnd="@+id/frequencySeekBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:max="1000000"/>
+</RelativeLayout>

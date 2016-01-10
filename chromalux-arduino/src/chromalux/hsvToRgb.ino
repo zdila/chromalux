@@ -1,5 +1,3 @@
-// #include "Arduino.h"
-
 void hsvToRgb(float *rgb, float h, float s, float v) {
   h /= 60.0;
 
@@ -53,3 +51,4 @@ void hsvToRgb(float *rgb, float h, float s, float v) {
     }
   }
 }
+

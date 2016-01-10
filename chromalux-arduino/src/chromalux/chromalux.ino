@@ -73,24 +73,7 @@ unsigned len;
 struct scheduled scheduled;
 
 void setup() {
-  pinMode(10, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(5, OUTPUT);
-
-  TCCR1A = /*R*/ _BV(COM1B1) | _BV(WGM11) | /*G*/_BV(COM1A1);
-  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);
-  TCCR1C = 0;
-  ICR1 = 0xffff; // TOP
-
-  TCCR3A = /*B*/_BV(COM3A1) | _BV(WGM31);
-  TCCR3B = _BV(WGM33) | _BV(WGM32) | _BV(CS30);
-  TCCR3C = 0;
-
-  ICR3 = 0xffff; // TOP
-
-  // black
-  TCCR1A = _BV(WGM11);
-  TCCR3A = _BV(WGM31);
+  initRgb();
 
   Serial.begin(9600);
   // while(!Serial); // wait for connect (for debug only, remove for production)
@@ -144,12 +127,6 @@ void setup() {
   lastWrite = millis();
   lastSchedulerCheck = millis();
 }
-
-// D5, D9 & D10 - timer 1 and 3
-// D5 = PC6, OC3A, OC4A
-// D9 = PB5, OC1A, !OC4B
-// D10 = PB6, OC1B, OC4B
-// *D11 = PB7, OC0A, OC1C
 
 void loop() {
 
@@ -220,7 +197,7 @@ void loop() {
   currentRgb.g = trans(currentRgb.g, targetRgb.g, d);
   currentRgb.b = trans(currentRgb.b, targetRgb.b, d);
 
-  applyRgb(currentRgb);
+  applyRgb(currentRgb.r, currentRgb.g, currentRgb.b);
 }
 
 void runCommand(const unsigned cmd, const union params &params) {
@@ -268,23 +245,3 @@ float trans(float c, const float t, const float delta) {
   return c;
 }
 
-void applyRgb(const struct rgb &rgb) {
-  byte a = _BV(WGM11);
-  byte b = _BV(WGM31);
-
-  if (rgb.r) {
-    OCR1B = (unsigned) (pow(65536.0, sqrt(rgb.r)) - 1.0);
-    a |= _BV(COM1B1);
-  }
-  if (rgb.g) {
-    OCR1A = (unsigned) (pow(65536.0, sqrt(rgb.g)) - 1.0);
-    a |= _BV(COM1A1);
-  }
-  if (rgb.b) {
-    OCR3A = (unsigned) (pow(65536.0, sqrt(rgb.b)) - 1.0);
-    b |= _BV(COM3A1);
-  }
-
-  TCCR1A = a;
-  TCCR3A = b;
-}
